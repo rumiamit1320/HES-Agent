@@ -36,6 +36,7 @@ jobs:
         run: |
           New-Item -ItemType Directory -Force -Path release/HES_Power_Outage_Agent | Out-Null
           Copy-Item dist/HES_Power_Outage_Agent.exe release/HES_Power_Outage_Agent/
+          Copy-Item requirements.txt release/HES_Power_Outage_Agent/
           Copy-Item config release/HES_Power_Outage_Agent/config -Recurse
           Copy-Item INSTALL_AND_RUN.bat release/HES_Power_Outage_Agent/
           Copy-Item QUICK_START_WINDOWS.md release/HES_Power_Outage_Agent/
