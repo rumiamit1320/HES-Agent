@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+
+# Credentials / secrets
+config/credentials.dpapi
+.env
+*.pem
+*.key
+
+# HES/APDCL data and generated output
+Downloads/
+Reports/
+Input/
+Logs/
+logs/
+batches/
+output/
+data/
+*.xls
+*.xlsx
+*.xlsm
+*.csv
+*.dat
+*.cfg
+*.log
+*.tmp
+*.file
+
+# Browser profiles
+browser_profile/
+chrome_profile/
+playwright_profile/
+
+# IDE / OS
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store
