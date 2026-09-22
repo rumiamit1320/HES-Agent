@@ -1,0 +1,51 @@
+name: Build Windows EXE
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build-windows-exe:
+    runs-on: windows-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        shell: pwsh
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pyinstaller
+
+      - name: Build executable
+        shell: pwsh
+        run: |
+          pyinstaller --noconfirm --clean --onefile --name "HES_Power_Outage_Agent" --add-data "config;config" --add-data "hes_agent;hes_agent" --collect-all pandas --collect-all openpyxl --collect-all lxml --collect-all yaml --collect-all dateutil hes_agent/agent.py
+
+      - name: Create distribution package
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path release/HES_Power_Outage_Agent | Out-Null
+          Copy-Item dist/HES_Power_Outage_Agent.exe release/HES_Power_Outage_Agent/
+          Copy-Item config release/HES_Power_Outage_Agent/config -Recurse
+          Copy-Item INSTALL_AND_RUN.bat release/HES_Power_Outage_Agent/
+          Copy-Item QUICK_START_WINDOWS.md release/HES_Power_Outage_Agent/
+          Compress-Archive -Path release/HES_Power_Outage_Agent -DestinationPath HES_Power_Outage_Agent_Windows.zip -Force
+
+      - name: Upload Windows EXE
+        uses: actions/upload-artifact@v4
+        with:
+          name: HES-Power-Outage-Agent-Windows
+          path: |
+            dist/HES_Power_Outage_Agent.exe
+            HES_Power_Outage_Agent_Windows.zip
+          retention-days: 30
