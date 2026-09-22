@@ -8,7 +8,22 @@ echo One-click setup and launch
 echo ============================================================
 echo.
 
+REM Always resolve paths relative to this launcher.
 cd /d "%~dp0"
+set "ROOT=%~dp0"
+set "REQ=%ROOT%requirements.txt"
+set "VENV=%ROOT%.venv"
+set "VENV_PY=%VENV%\Scripts\python.exe"
+
+if not exist "%REQ%" (
+    echo ERROR: requirements.txt was not found.
+    echo Expected:
+    echo %REQ%
+    echo.
+    echo This Windows package is incomplete.
+    pause
+    exit /b 1
+)
 
 set "PYTHON_CMD="
 where py >nul 2>&1
@@ -50,17 +65,15 @@ if not defined PYTHON_CMD (
 echo Python: %PYTHON_CMD%
 echo.
 
-if not exist ".venv\Scripts\python.exe" (
+if not exist "%VENV_PY%" (
     echo Creating isolated Python environment...
-    %PYTHON_CMD% -m venv .venv
+    %PYTHON_CMD% -m venv "%VENV%"
     if %errorlevel% neq 0 (
         echo ERROR: Could not create the virtual environment.
         pause
         exit /b 1
     )
 )
-
-set "VENV_PY=%CD%\.venv\Scripts\python.exe"
 
 echo Upgrading pip...
 "%VENV_PY%" -m pip install --upgrade pip
@@ -71,9 +84,11 @@ if %errorlevel% neq 0 (
 )
 
 echo Installing project dependencies...
-"%VENV_PY%" -m pip install -r requirements.txt
+"%VENV_PY%" -m pip install -r "%REQ%"
 if %errorlevel% neq 0 (
     echo ERROR: Dependency installation failed.
+    echo Requirements file:
+    echo %REQ%
     pause
     exit /b 1
 )
@@ -94,7 +109,7 @@ if not exist "%LocalAppData%\Google\Chrome\Application\chrome.exe" (
         if %errorlevel%==0 (
             winget install --id Google.Chrome -e --source winget --accept-package-agreements --accept-source-agreements
         ) else (
-            echo WARNING: winget is not available. Install Google Chrome manually if the agent requests it.
+            echo WARNING: winget is not available. Install Google Chrome manually if required.
         )
     )
 )
