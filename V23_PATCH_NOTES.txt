@@ -1,0 +1,6 @@
+v23 targeted fix
+- Kept v22 architecture and click-only dataset/subtab selection.
+- Instant Partial/Full child-tab click now retries through Angular redraw without active-state/XLS/result validation.
+- Existing XLS downloader unchanged in mechanism, but its XLS control discovery now polls for up to 20 seconds after child navigation instead of taking a single DOM snapshot.
+- This addresses intermittent Instant Full and Bill Running failures where History Bill rendered fast enough but the XLS control appeared later.
+- No changes to Power Outage, normalization, recovery, workspace, Ctrl+C/browser persistence, reporting, or other dataset mechanisms.

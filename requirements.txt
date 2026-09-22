@@ -1,0 +1,8 @@
+pandas>=2.2,<3
+openpyxl>=3.1,<4
+lxml>=5.0,<7
+xlrd>=2.0,<3
+PyYAML>=6.0,<7
+playwright>=1.50,<2
+python-dateutil>=2.9,<3
+reportlab>=4.0,<5

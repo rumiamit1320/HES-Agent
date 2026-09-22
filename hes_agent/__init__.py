@@ -1,0 +1,1 @@
+"""HES Power Outage Agent."""

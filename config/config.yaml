@@ -1,0 +1,56 @@
+portal:
+  base_url: "https://hes.pkg4apdcl.com/#/core/login"
+  browser:
+    # Use the installed Google Chrome binary, not Playwright's bundled Chromium.
+    # This matches the browser where HES XLS downloads work correctly.
+    executable_path: ""
+    # Optional persistent Chrome profile. Leave empty to use a dedicated
+    # agent profile beside the current batch workspace.
+    user_data_dir: ""
+  login_wait_seconds: 180
+  login:
+    username_env: "HES_USERNAME"
+    password_env: "HES_PASSWORD"
+    selectors:
+      username: "input[placeholder*='User' i], input[name*='user' i], input[id*='user' i], input[formcontrolname*='user' i], input[autocomplete='username'], input[aria-label*='user' i], input[type='text']"
+      password: "input[placeholder*='Password' i], input[name*='pass' i], input[id*='pass' i], input[formcontrolname*='pass' i], input[autocomplete='current-password'], input[aria-label*='pass' i], input[type='password']"
+      submit: "button:has-text('Login'), button:has-text('Log In'), input[type='submit']"
+    captcha_indicators:
+      - "img[alt*='captcha' i]"
+      - "input[placeholder*='captcha' i]"
+      - "input[name*='captcha' i]"
+      - "input[id*='captcha' i]"
+  navigation:
+    analytics_text: "Analytics"
+    meter_data_text: "View Meter Data"
+    outage_text: "Power Outage"
+  selectors:
+    meter_search: "input[placeholder*='meter' i], input[name*='meter' i], input[id*='meter' i], input[placeholder*='Enter meter data' i]"
+    search_button: "button:has-text('Apply'), button:has-text('Search'), input[type='submit']"
+    download_button: "button:has-text('XLS'), a:has-text('XLS')"
+
+processing:
+  outage_start_aliases:
+    - "Last Gasp"
+    - "Last Gasp Time"
+    - "Outage Start"
+    - "Start Time"
+    - "Power Failure Time"
+    - "Event Time"
+  outage_end_aliases:
+    - "First Breath"
+    - "First Breath Time"
+    - "Restoration Time"
+    - "Outage End"
+    - "End Time"
+    - "Power Restore Time"
+  duration_aliases:
+    - "Duration"
+    - "Outage Duration"
+    - "Duration (min)"
+  date_dayfirst: false
+  feeder_gap_minutes: 5
+  min_feeder_meters: 1
+
+output:
+  directory: "output"
