@@ -29,7 +29,7 @@ jobs:
       - name: Build executable
         shell: pwsh
         run: |
-          pyinstaller --noconfirm --clean --onefile --name "HES_Power_Outage_Agent" --add-data "config;config" --add-data "hes_agent;hes_agent" --collect-all pandas --collect-all openpyxl --collect-all lxml --collect-all yaml --collect-all dateutil hes_agent/agent.py
+          pyinstaller --noconfirm --clean --onefile --name "HES_Power_Outage_Agent" --add-data "config;config" --add-data "hes_agent;hes_agent" --collect-all pandas --collect-all openpyxl --collect-all lxml --collect-all yaml --collect-all dateutil windows_entry.py
 
       - name: Create distribution package
         shell: pwsh
